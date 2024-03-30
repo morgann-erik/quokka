@@ -17,4 +17,7 @@ TBU
 
 # Keywords
 
+- `let`
+- `fn`
+
 # Builtin functions
