@@ -19,5 +19,10 @@ TBU
 
 - `let`
 - `fn`
+- `true`
+- `false`
+- ` if`
+- `else`
+- `return`
 
 # Builtin functions
