@@ -2,9 +2,9 @@ package token
 
 type TokenType string
 
-var keywords = map[string]TokenType {
-    "fn": FUNCTION,
-    "let": LET,
+var keywords = map[string]TokenType{
+	"fn":  FUNCTION,
+	"let": LET,
 }
 
 type Token struct {
@@ -22,8 +22,16 @@ const (
 	IDENT = "IDENT"
 	INT   = "INT"
 
-	ASSIGN = "ASSIGN"
-	PLUS   = "PLUS"
+	// Operators
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	BANG     = "!"
+	ASTERISK = "*"
+	SLASH    = "/"
+
+	LT = "<"
+	GT = ">"
 
 	COMMA     = ","
 	SEMICOLON = ";"
@@ -38,9 +46,9 @@ const (
 )
 
 func LookupIdent(ident string) TokenType {
-    if tok, ok := keywords[ident]; ok {
-        return tok
-    }
+	if tok, ok := keywords[ident]; ok {
+		return tok
+	}
 
-    return IDENT
+	return IDENT
 }

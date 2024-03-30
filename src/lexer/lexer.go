@@ -1,8 +1,6 @@
 package lexer
 
 import (
-	"log"
-
 	"github.com/morgann-erik/quokka/token"
 )
 
@@ -41,8 +39,19 @@ func (l *Lexer) NextToken() token.Token {
 	case '=':
 		tok = newToken(token.ASSIGN, l.ch)
 	case '+':
-        log.Printf("%s %s", token.PLUS, string(l.ch))
 		tok = newToken(token.PLUS, l.ch)
+	case '-':
+		tok = newToken(token.MINUS, l.ch)
+	case '!':
+		tok = newToken(token.BANG, l.ch)
+	case '*':
+		tok = newToken(token.ASTERISK, l.ch)
+	case '/':
+		tok = newToken(token.SLASH, l.ch)
+	case '<':
+		tok = newToken(token.LT, l.ch)
+	case '>':
+		tok = newToken(token.GT, l.ch)
 	case '(':
 		tok = newToken(token.LPAREN, l.ch)
 	case ')':
