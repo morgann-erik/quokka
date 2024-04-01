@@ -11,7 +11,7 @@ func TestLetStatements(t *testing.T) {
 	input := `
     let x=5
     let y = 10
-    let foobar = 838383
+    let myVarbar = 838383
     `
 
 	l := lexer.New(input)
@@ -30,7 +30,7 @@ func TestLetStatements(t *testing.T) {
 	tests := []struct {
 		expectedIdentifier string
 	}{
-		{"x"}, {"y"}, {"foobar"},
+		{"x"}, {"y"}, {"myVarbar"},
 	}
 
 	for i, tt := range tests {
@@ -103,5 +103,17 @@ func TestReturnStatements(t *testing.T) {
             t.Errorf("Expected 'return', got %q", returnStmt.TokenLiteral())
         }
 
+    }
+}
+
+func TestString(t *testing.T) {
+    input := "let myVar = "
+
+    l := lexer.New(input)
+    p := New(l)
+
+    program := p.ParseProgram()
+    if program.String() != "let myVar="{
+        t.Errorf("program.String() is wrong expected %q, got=%q", "let myVar=", program.String())
     }
 }
