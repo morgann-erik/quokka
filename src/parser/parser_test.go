@@ -9,9 +9,9 @@ import (
 
 func TestLetStatements(t *testing.T) {
 	input := `
-    let x=5
-    let y = 10
-    let myVarbar = 838383
+    let x=5;
+    let y = 10;
+    let myVarbar = 838383;
     `
 
 	l := lexer.New(input)
@@ -24,6 +24,7 @@ func TestLetStatements(t *testing.T) {
 	}
 
 	if len(program.Statements) != 3 {
+        t.Errorf("%s", program.String())
 		t.Fatalf("program.Statements does not contain 3 statements: got=%d", len(program.Statements))
 	}
 
@@ -77,9 +78,9 @@ func checkParseErrors(t *testing.T, p *Parser) {
 
 func TestReturnStatements(t *testing.T) {
 	input := `
-    return 7
-    return 10
-    return 993388
+    return 7;
+    return 10;
+    return 993388;
     `
 
 	l := lexer.New(input)
@@ -107,7 +108,7 @@ func TestReturnStatements(t *testing.T) {
 }
 
 func TestString(t *testing.T) {
-    input := "let myVar = "
+    input := "let myVar = a;"
 
     l := lexer.New(input)
     p := New(l)
@@ -115,5 +116,35 @@ func TestString(t *testing.T) {
     program := p.ParseProgram()
     if program.String() != "let myVar="{
         t.Errorf("program.String() is wrong expected %q, got=%q", "let myVar=", program.String())
+    }
+}
+
+func TestIdentExpression(t *testing.T) {
+    input := "foobar;"
+
+    l := lexer.New(input)
+    p := New(l)
+
+    program := p.ParseProgram()
+    checkParseErrors(t, p)
+
+    if len(program.Statements) != 1 {
+        t.Fatalf("not enough statements expected 1, got %d", len(program.Statements))
+    }
+
+    stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+    if !ok {
+        t.Fatalf("Expected *ast.ExpressionStatement, got %T", program.Statements[0])
+    }
+
+    ident, ok := stmt.Expression.(*ast.Identifier)
+    if !ok {
+        t.Fatalf("expected Ident expression, got=%T", stmt.Expression)
+    }
+    if ident.Value != "foobar" {
+        t.Errorf("wron ident.Value expected 'foobar', got %s", ident.Value)
+    }
+    if ident.TokenLiteral() != "foobar" {
+        t.Errorf("ident.TokenLiteral not %s, got %s", "foobar", ident.TokenLiteral())
     }
 }
