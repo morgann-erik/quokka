@@ -48,6 +48,8 @@ func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
 	case token.LET:
 		return p.parseLetStatement()
+    case token.RETURN:
+        return p.parseReturnStatement()
 	default:
 		return nil
 	}
@@ -72,6 +74,19 @@ func (p *Parser) parseLetStatement() ast.Statement {
 	}*/
 
 	return stmt
+}
+
+func (p *Parser) parseReturnStatement() ast.Statement {
+    stmt := &ast.ReturnStatement{Token:p.curToken}
+
+    p.nextToken()
+
+	// skip expression until another let statement is encountered
+/*	for !p.curTokenIs(token.LET) {
+	    p.nextToken()
+	}*/
+
+    return stmt
 }
 
 func (p *Parser) curTokenIs(t token.TokenType) bool {
